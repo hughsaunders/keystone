@@ -150,7 +150,9 @@ class Manager(manager.Manager):
 
     @notifications.updated(_SERVICE, public=False)
     def update_service(self, service_id, service_ref):
-        return self.driver.update_service(service_id, service_ref)
+        result = self.driver.update_service(service_id, service_ref)
+        cache.delete(service_id)
+        return result
 
     @notifications.deleted(_SERVICE, public=False)
     def delete_service(self, service_id):
